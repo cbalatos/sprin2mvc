@@ -34,7 +34,7 @@ public class JSONController {
 		shopList.add(shop1);
 		shopList.add(shop2);	
 		
-		System.out.println("Shops List Initialised with 2 shops");
+		System.out.println("Shops List Initialised with 2 shops my friend");
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
