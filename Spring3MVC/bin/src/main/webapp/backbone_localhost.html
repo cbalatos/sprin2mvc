@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Backbone Tutorial</title>
+		<script src="lib/backbone/underscore.js" type="text/javascript"></script>
+		<script src="lib/backbone/backbone.js" type="text/javascript"></script>
+		
+		<script>
+			
+		    var UserModel = Backbone.Model.extend({
+		        urlRoot: 'http://127.0.0.1:8080/jenkins/user',
+		        defaults: {
+		            id: '',
+		            fullName: ''
+		        }
+		
+		    });
+    
+			
+			function onload(){
+				
+
+			var user = new Usermodel({id: "cbalatos"});
+			
+			user.fetch({
+        		success: function (user) {
+            				alert(user.toJSON());
+        				}
+    		})
+				 
+			document.getElementById("mytest").innerHTML = "Πάτα με";				
+			}
+			
+			alert("Hi I am person1 "+person1.get("name"));
+			
+			function moveIt(){
+				if (document.getElementById("mytest").style.color == "red") {
+					document.getElementById("mytest").style.color = "blue";
+				} else {
+					document.getElementById("mytest").style.color = "red";
+				}
+
+
+			}
+		</script>
+    </head>
+    <body onload="javascript:onload()">
+        <h1 style="color:red;" id="mytest">New Backbone Page</h1>
+		<button id="mybutton" onclick="moveIt()">Press me to switch color</button>
+    </body>
+</html>
