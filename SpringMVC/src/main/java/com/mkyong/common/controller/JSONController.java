@@ -34,7 +34,7 @@ public class JSONController {
 		shopList.add(shop1);
 		shopList.add(shop2);	
 		
-		System.out.println("Egit Shops List ddd Initialised with 2 shops my friend");
+		System.out.println("Egit Shops List Initialised with 2 shops my friend");
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
