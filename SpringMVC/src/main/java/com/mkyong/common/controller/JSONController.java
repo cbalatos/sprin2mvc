@@ -22,6 +22,7 @@ public class JSONController {
 	
 	public JSONController(){
 		
+		//jvlach added this comment
 		shopList = new ArrayList<Shop>();
 		Shop shop1 = new Shop(1);
 		shop1.setName("myFirstShop");
