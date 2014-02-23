@@ -71,7 +71,7 @@ public class JSONController {
 	public @ResponseBody
 	List<Shop> getShopListInJSON() {
 
-		System.out.println("ΛΟΝΔΙΝΟ ΑΜΣΤΕΡΝΤΑΜ Ή ΒΕΡΟΛΟΝΟ");
+		System.out.println("ΛΟΝΔΙΝΟ ΑΜΣΤΕΡΝΤΑΜ Ή ΒΕΡΟΛΟΝΟ 2");
 
 		return shopList;
 	}
