@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,10 +20,10 @@ import com.mkyong.common.model.Shop;
 public class JSONController {
 	
 	List<Shop> shopList;
+
 	
 	public JSONController(){
 		
-		//jvlach added this comment
 		shopList = new ArrayList<Shop>();
 		Shop shop1 = new Shop(1);
 		shop1.setName("myFirstShop");
@@ -35,7 +36,7 @@ public class JSONController {
 		shopList.add(shop1);
 		shopList.add(shop2);	
 		
-		System.out.println("Egit Shops List Initialised with 2 shops my friend");
+		System.out.println("Shops List Initialised with 2 shops");
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
@@ -49,19 +50,25 @@ public class JSONController {
 
 	}
 	
-	@RequestMapping(value = "{shop}", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody
-	Shop insertShopInJSON(@PathVariable Shop shop) {
+	Shop insertShopInJSON(@RequestBody Shop shop) {
 
 		System.out.println("I will insert a new shop with name" + shop.getName());
 		int maxId = 0;
 		for(Shop s: shopList){
 			if (s.getId() > maxId) maxId= s.getId();
 		}
+		maxId ++;
+
 
 		shop.setId(maxId);
+		
+		System.out.println("I will insert a new shop with id" + shop.getId());
 		shopList.add(shop);
+		
+		System.out.println("New list size =" + shopList.size());
 		
 		return shop;
 
@@ -71,7 +78,7 @@ public class JSONController {
 	public @ResponseBody
 	List<Shop> getShopListInJSON() {
 
-		System.out.println("ΛΟΝΔΙΝΟ ΑΜΣΤΕΡΝΤΑΜ Ή ΒΕΡΟΛΟΝΟ 2");
+		System.out.println("List size =" + shopList.size());
 
 		return shopList;
 	}
@@ -79,18 +86,20 @@ public class JSONController {
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public @ResponseBody
-	void deleteShopListFromJSON(int id) {
+	void deleteShopListFromJSON(@PathVariable int id) {
 
 		Iterator<Shop> iter = shopList.iterator();
 
 		while (iter.hasNext()){
 			Shop s = iter.next();
 			if (s.getId() == id){
-				shopList.remove(s);
+				
+				iter.remove();
 			}
 			
 			
 		}
+		System.out.println("After deletion size="+shopList.size());
 
 	}	
 
