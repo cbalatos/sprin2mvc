@@ -56,3 +56,39 @@ function doAction (action, duration) {
 
 ourObject.on("jump", doAction);
 ourObject.trigger("jump", 'dancing', "5 minutes");
+
+
+//listenTo() tells an object to listen for events on another object, allowing the listener to keep track of the events 
+//for which it is listening. stopListening() can subsequently be called on the listener to tell it to stop listening for events:
+
+var a = _.extend({}, Backbone.Events);
+var b = _.extend({}, Backbone.Events);
+var c = _.extend({}, Backbone.Events);
+
+// add listeners to A for events on B and C
+a.listenTo(b, 'anything', function(event){ console.log("anything happened"); });
+a.listenTo(c, 'everything', function(event){ console.log("everything happened"); });
+
+// trigger an event
+b.trigger('anything'); // logs: anything happened
+
+// stop listening
+//be aware of ghost views when using on() and off() 
+//see more on http://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
+a.stopListening();
+
+// A does not receive these events
+b.trigger('anything');
+c.trigger('everything');
+
+
+// When views are removed all listenTo are stopped.
+var view = new Backbone.View();
+var b = _.extend({}, Backbone.Events);
+
+view.listenTo(b, 'all', function(){ console.log(true); });
+b.trigger('anything');  // logs: true
+
+view.listenTo(b, 'all', function(){ console.log(false); });
+view.remove(); // stopListening() implicitly called
+b.trigger('anything');  // does not log anything
