@@ -13,6 +13,7 @@
     <header id="header">
       <h1>todos</h1>
       <input id="new-todo" placeholder="What needs to be done?" autofocus>
+      <input id="new-comment" placeholder="What about a comment?">
     </header>
     <section id="main">
       <input id="toggle-all" type="checkbox">
@@ -31,9 +32,11 @@
     <div class="view">
       <input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %>>
       <label><%- title %></label>
+	  <label><%- comment %></label>
       <button class="destroy"></button>
     </div>
     <input class="edit" value="<%- title %>">
+    <input class="comment" value="<%- comment %>">
   </script>
   
 

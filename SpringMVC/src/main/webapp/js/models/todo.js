@@ -11,6 +11,7 @@
     // Default attributes ensure that each todo created has `title` and `completed` keys.
     defaults: {
       title: '',
+      comment:'no comment',
       completed: false
     },
 

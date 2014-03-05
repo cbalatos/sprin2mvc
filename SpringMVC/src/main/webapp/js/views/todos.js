@@ -1,46 +1,76 @@
- // js/collections/todos.js
+  // js/views/todos.js
+
 
   var app = app || {};
 
-  // Todo Collection
-  // ---------------
+  // Todo Item View
+  // --------------
 
-  // The collection of todos is backed by *localStorage* instead of a remote
-  // server.
-  var TodoList = Backbone.Collection.extend({
+  // The DOM element for a todo item...
+  app.TodoView = Backbone.View.extend({
 
-    // Reference to this collection's model.
-    model: app.Todo,
+    //... is a list tag.
+    tagName: 'li',
 
-    // Save all of the todo items under the `"todos-backbone"` namespace.
-    localStorage: new Backbone.LocalStorage('todos-backbone'),
+    // Cache the template function for a single item.
+    template: _.template( $('#item-template').html() ),
 
-    // Filter down the list of all todo items that are finished.
-    completed: function() {
-      return this.filter(function( todo ) {
-        return todo.get('completed');
-      });
+    // The DOM events specific to an item.
+    events: {
+      'dblclick label': 'edit',
+      'keypress .edit': 'updateOnEnter',
+      'keypress .comment': 'updateCommentOnEnter',
+      'blur .edit': 'close',
+      'blur .comment': 'close'
     },
 
-    // Filter down the list to only todo items that are still not finished.
-    remaining: function() {
-      return this.without.apply( this, this.completed() );
+    // The TodoView listens for changes to its model, re-rendering. Since there's
+    // a one-to-one correspondence between a **Todo** and a **TodoView** in this
+    // app, we set a direct reference on the model for convenience.
+    initialize: function() {
+      this.listenTo(this.model, 'change', this.render);
     },
 
-    // We keep the Todos in sequential order, despite being saved by unordered
-    // GUID in the database. This generates the next order number for new items.
-    nextOrder: function() {
-      if ( !this.length ) {
-        return 1;
+    // Re-renders the titles of the todo item.
+    render: function() {
+      this.$el.html( this.template( this.model.toJSON() ) );
+      this.$input = this.$('.edit');
+      this.$comment = this.$('.comment');
+      return this;
+    },
+
+    // Switch this view into `"editing"` mode, displaying the input field.
+    edit: function() {
+    	alert('In edit');
+      this.$el.addClass('editing');
+      this.$input.focus();
+    },
+
+    // Close the `"editing"` mode, saving changes to the todo.
+    close: function() {
+    	alert('in close function')
+      var value = this.$input.val().trim();
+      var commentValue = this.$comment.val().trim();
+      alert(commentValue)
+
+      if ( value ) {
+        this.model.save({ title: value, comment: commentValue});
       }
-      return this.last().get('order') + 1;
+
+      this.$el.removeClass('editing');
     },
 
-    // Todos are sorted by their original insertion order.
-    comparator: function( todo ) {
-      return todo.get('order');
+    // If you hit `enter`, we're through editing the item.
+    updateOnEnter: function( e ) {
+      if ( e.which === ENTER_KEY ) {
+        this.close();
+      }
+    },
+    
+    // If you hit `enter`, we're through editing the item.
+    updateCommentOnEnter: function( e ) {
+      if ( e.which === ENTER_KEY ) {
+        this.close();
+      }
     }
   });
-
-  // Create our global collection of **Todos**.
-  app.Todos = new TodoList();
