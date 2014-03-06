@@ -14,12 +14,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.*;
+
 // Adapted From http://www.brucephillips.name/blog/index.cfm/2012/12/20/Spring-Release-32--Easier-Spring-MVC-Tests
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("mvc-dispatcher-servlet.xml")
 public class TestController {
-
 	@Autowired
 	private WebApplicationContext wac;
 
@@ -47,6 +49,19 @@ public class TestController {
 
 	}	
 
+	//all rest json testing from http://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-rest-api/
+	@Test
+	public void testGetShopListInJSON() throws Exception {
 
+
+		mockMvc.perform( get("/kfc/brands"))
+        .andExpect(status().isOk())
+        //.andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+        .andExpect(jsonPath("$", hasSize(2)))
+        .andExpect(jsonPath("$[0].id", is(1)))
+        .andExpect(jsonPath("$[0].name", is("myFirstShop")))
+        .andExpect(jsonPath("$[1].id", is(2)))
+        .andExpect(jsonPath("$[1].name", is("mySecondShop")));
+	}
 }
 
