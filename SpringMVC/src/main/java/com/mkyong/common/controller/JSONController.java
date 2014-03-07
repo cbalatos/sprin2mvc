@@ -41,12 +41,15 @@ public class JSONController {
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public @ResponseBody
-	Shop getShopInJSON(@PathVariable int id) {
+	Shop getShopInJSON(@PathVariable int id) throws ShopNotFoundException {
+		
+		System.out.println("Get shop in json for :"+id);
+		
 		for(Shop s: shopList){
 			if (s.getId() == id) return s;
 		}
 
-		return null;
+		throw new ShopNotFoundException();
 
 	}
 	
@@ -86,7 +89,7 @@ public class JSONController {
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public @ResponseBody
-	void deleteShopListFromJSON(@PathVariable int id) {
+	void deleteShopListFromJSON(@PathVariable int id)  {
 
 		Iterator<Shop> iter = shopList.iterator();
 
