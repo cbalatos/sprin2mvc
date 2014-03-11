@@ -9,8 +9,13 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+            <property name="basename" value="/resources/messages/messages" />
+	</bean>   
+
 	<context:component-scan base-package="com.mkyong.common.controller" />
 
 	<mvc:annotation-driven />
+	
 
 </beans>

@@ -3,12 +3,14 @@ package testUnits;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import gr.cbal.utils.TestUtil;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.test.TestUtil;
+import com.mkyong.common.model.Shop;
 
 // Adapted From http://www.brucephillips.name/blog/index.cfm/2012/12/20/Spring-Release-32--Easier-Spring-MVC-Tests
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -83,7 +85,45 @@ public class TestController {
         
         mockMvc.perform(get("/kfc/brands/{id}", 4))
         .andExpect(status().isNotFound());
-    
+   
+        
+	}
+
+	@Test
+	public void testInsertShopInJSON() throws Exception {
+			
+			Shop shop = new Shop();
+			shop.setName("1111111111111111111111111111111");
+			
+	       mockMvc.perform(post("/kfc/brands")
+	                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+	                .content(TestUtil.convertObjectToJsonBytes(shop)))
+	                .andExpect(status().isCreated())
+	                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+	                .andDo(print());
+	}
+
+	
+	@Test
+	public void testInsertFailureShopInJSON() throws Exception {
+			
+			Shop shop = new Shop();
+			shop.setName("222222222222222222222222222222222222222222222222222222222222222222222222222222");
+			
+	       mockMvc.perform(post("/kfc/brands")
+	                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+	                .content(TestUtil.convertObjectToJsonBytes(shop)))
+	                .andExpect(status().isBadRequest())
+	                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+	                
+	                .andExpect(jsonPath("$.fieldErrors", hasSize(1)))
+	                /*
+	                .andExpect(jsonPath("$.fieldErrors[*].path", containsInAnyOrder("title", "description")))
+	                .andExpect(jsonPath("$.fieldErrors[*].message", containsInAnyOrder(
+	                        "The maximum length of the description is 500 characters.",
+	                        "The maximum length of the title is 100 characters."
+	                )))*/
+	                .andDo(print());
 	}
 }
 

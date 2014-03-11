@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,7 +58,9 @@ public class JSONController {
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody
-	Shop insertShopInJSON(@RequestBody Shop shop) {
+	Shop insertShopInJSON(@Valid @RequestBody Shop shop) { 
+		//The valid annotation ensures that if validation annotations declared in the Shop object fails, 
+		//a MethodArgumentNotValidException is thrown and  validation errors are returned to the client as a JSON document.
 
 		System.out.println("I will insert a new shop with name" + shop.getName());
 		int maxId = 0;

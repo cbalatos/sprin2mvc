@@ -1,8 +1,14 @@
 package com.mkyong.common.model;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class Shop {
 
 	int id;
+	
+    @NotEmpty //Hibernate Validation Constains
+    @Length(max = 50)
 	String name;
 	
 	String staffName[];
