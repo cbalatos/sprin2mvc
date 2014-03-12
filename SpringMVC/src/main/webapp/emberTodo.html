@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Ember.js • TodoMVC</title>
+    <link rel="stylesheet" href="assets/style.css">
+  </head>
+  <body>
+  	<!-- HandleBars template -->
+  	<!-- Ember by default will map to a controller with the name TodosController -->
+    <script type="text/x-handlebars" data-template-name="todos">  
+
+    <section id="todoapp">
+      <header id="header">
+		<h1>todos</h1>
+		{{!-- {{ Connect the newTitle property of this template's controller to the value attribute of the <input>. 
+                 When one changes, the other will automatically update to remain synchronized.
+				 Connect user interaction (pressing the <enter> key) to a method createTodo on this template's controller.}} --}}
+		{{input type="text" id="new-todo" placeholder="What needs to be done?" 
+              value=newTitle action="createTodo"}}
+      </header>
+
+      <section id="main">
+		<ul id="todo-list">
+ 		 {{#each itemController="todo"}} {{!-- {{ Assigns a controller to this item}} --}}
+			<li {{bind-attr class="isCompleted:completed"}}>
+  				<input type="checkbox" class="toggle">
+  				<label>{{title}}</label><button class="destroy"></button>
+			</li>
+ 		 {{/each}}
+		</ul>
+
+        <input type="checkbox" id="toggle-all">
+      </section>
+
+      <footer id="footer">
+		<span id="todo-count">
+ 			 <strong>{{remaining}}</strong> {{inflection}} left
+		</span>
+        <ul id="filters">
+          <li>
+            <a href="all" class="selected">All</a>
+          </li>
+          <li>
+            <a href="active">Active</a>
+          </li>
+          <li>
+            <a href="completed">Completed</a>
+          </li>
+        </ul>
+
+        <button id="clear-completed">
+          Clear completed (1)
+        </button>
+      </footer>
+    </section>
+
+    <footer id="info">
+      <p>Double-click to edit a todo</p>
+    </footer>
+</script>
+    
+  <script src="lib/jquery/jquery-1.10.2.min.js"></script>
+  <script src="lib/ember/handlebars-1.0.0.js"></script>
+  <script src="lib/ember/ember.js"></script>
+  <script src="lib/ember/ember-data.js"></script>
+  
+  <!-- Our ToDo application -->
+  <script src="js/emberapplication.js"></script>
+  <script src="js/emberrouter.js"></script>
+  <script src="js/embermodels/todo.js"></script>
+  <script src="js/embercontrollers/todos_controller.js"></script>
+  <script src="js/embercontrollers/todo_controller.js"></script>
+  </body>
+</html>
