@@ -25,13 +25,17 @@ Todos.TodosController = Ember.ArrayController.extend({
         } else{
         	alert('Deletion Aborted');
         }
-
+        if (confirm('Are you sure that you want to delete '+ completed.get('length')+' completed items?')){
+        	completed.invoke('deleteRecord');
+        	completed.invoke('save');
+        }else{
+        	alert('Deletion of completed tasks aborted');
+        }
       }
 
   },
   
   remaining: function() { //Define a controller property. A Computed Property
-  	//alert('here i am');
   	  return this.filterBy('isCompleted', false).get('length');
   	}.property('@each.isCompleted'),
   
@@ -50,13 +54,13 @@ Todos.TodosController = Ember.ArrayController.extend({
   		}.property('@each.isCompleted'),
   		
   allAreDone: function(key, value) {
-  		  if (value === undefined) {
+  		  if (value === undefined) { //getter
   		    return !!this.get('length') && this.everyProperty('isCompleted', true);
-  		  } else {
+  		  } else { //setter
   		    this.setEach('isCompleted', value);
   		    this.invoke('save');
   		    return value;
   		  }
-  		}.property('@each.isCompleted')
+  		}.property('@each.isCompleted')mpleted')
 
 });
