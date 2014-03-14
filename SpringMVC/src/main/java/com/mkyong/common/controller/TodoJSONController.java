@@ -1,25 +1,23 @@
 package com.mkyong.common.controller;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.mkyong.common.model.Shop;
 import com.mkyong.common.model.Todo;
+import com.mkyong.common.model.Todos;
 
 @Controller
-@RequestMapping("/todo")
+@RequestMapping("/todos")
 public class TodoJSONController {
 	
 	List<Todo> todoList;
@@ -75,11 +73,14 @@ public class TodoJSONController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
-	List<Todo> getTodoListInJSON() {
+	Todos getTodoListInJSON() {
 
 		System.out.println("List size =" + todoList.size());
 
-		return todoList;
+		Todos todos = new Todos();
+		todos.setTodos(todoList);
+		
+		return todos;
 	}
 	
 	/*

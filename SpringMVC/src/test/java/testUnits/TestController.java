@@ -131,14 +131,14 @@ public class TestController {
 	public void testGetTodoListInJSON() throws Exception {
 
 
-		mockMvc.perform( get("/todo"))
+		mockMvc.perform( get("/todos"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(2))) //use json-path to analyze the json object
-        .andExpect(jsonPath("$[0].title", is("To do first")))
-        .andExpect(jsonPath("$[0].completed", is(false)))
-        .andExpect(jsonPath("$[1].title", is("To do second")))
-		.andExpect(jsonPath("$[1].completed", is(true)));
+        .andExpect(jsonPath("$.todos", hasSize(2))) //use json-path to analyze the json object
+        .andExpect(jsonPath("$.todos[0].title", is("To do first")))
+        .andExpect(jsonPath("$.todos[0].completed", is(false)))
+        .andExpect(jsonPath("$.todos[1].title", is("To do second")))
+		.andExpect(jsonPath("$.todos[1].completed", is(true)));
 
 	}
 }

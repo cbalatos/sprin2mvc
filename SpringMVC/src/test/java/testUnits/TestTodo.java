@@ -18,8 +18,9 @@ public class TestTodo {
 		
 		TodoJSONController json = new TodoJSONController();	
 		
-		assertNotNull("The shops list must not be null ", json.getTodoListInJSON());
-		assertEquals(" Two shops must exist in the shop list", 2, json.getTodoListInJSON().size() );
+		assertNotNull("The todos item must not be null ", json.getTodoListInJSON());
+		assertNotNull("The todos list must not be null ", json.getTodoListInJSON().getTodos());
+		assertEquals(" Two todos list must exist ", 2, json.getTodoListInJSON().getTodos().size() );
 		
 		
 	}

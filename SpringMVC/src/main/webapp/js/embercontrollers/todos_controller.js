@@ -61,6 +61,6 @@ Todos.TodosController = Ember.ArrayController.extend({
   		    this.invoke('save');
   		    return value;
   		  }
-  		}.property('@each.isCompleted')mpleted')
+  		}.property('@each.isCompleted')
 
 });
