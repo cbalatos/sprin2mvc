@@ -21,6 +21,7 @@ import com.mkyong.common.model.Todos;
 public class TodoJSONController {
 	
 	List<Todo> todoList;
+	Todos todos;
 
 	
 	public TodoJSONController(){
@@ -38,6 +39,10 @@ public class TodoJSONController {
 		
 		todoList.add(todo1);
 		todoList.add(todo2);	
+		
+
+		todos = new Todos();
+		todos.setTodos(todoList);
 
 	}
 /*
@@ -58,6 +63,23 @@ public class TodoJSONController {
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody
+	Todo updateTodoInJSON(@Valid @RequestBody Todo todo) { 
+		//The valid annotation ensures that if validation annotations declared in the Shop object fails, 
+		//a MethodArgumentNotValidException is thrown and  validation errors are returned to the client as a JSON document.
+
+		System.out.println("I will update  a new todo with name" + todo.getTitle());
+		//int maxId = 0;
+
+		todos.getTodos().add(todo);
+
+		
+		return todo;
+
+	}	
+	
+	@RequestMapping(method = RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody
 	Todo insertTodoInJSON(@Valid @RequestBody Todo todo) { 
 		//The valid annotation ensures that if validation annotations declared in the Shop object fails, 
 		//a MethodArgumentNotValidException is thrown and  validation errors are returned to the client as a JSON document.
@@ -65,6 +87,7 @@ public class TodoJSONController {
 		System.out.println("I will insert a new todo with name" + todo.getTitle());
 		//int maxId = 0;
 
+		todos.getTodos().add(todo);
 
 		
 		return todo;
@@ -77,8 +100,6 @@ public class TodoJSONController {
 
 		System.out.println("List size =" + todoList.size());
 
-		Todos todos = new Todos();
-		todos.setTodos(todoList);
 		
 		return todos;
 	}
