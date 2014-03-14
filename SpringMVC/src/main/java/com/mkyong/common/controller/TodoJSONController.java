@@ -65,7 +65,7 @@ public class TodoJSONController {
 		//a MethodArgumentNotValidException is thrown and  validation errors are returned to the client as a JSON document.
 
 		System.out.println("I will insert a new todo with name" + todo.getTitle());
-		int maxId = 0;
+		//int maxId = 0;
 
 
 		
