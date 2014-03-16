@@ -2,7 +2,9 @@ package com.mkyong.common.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -124,5 +126,25 @@ public class TodoJSONController {
 		System.out.println("After deletion size="+shopList.size());
 
 	}	*/
+	
+    @RequestMapping("reloadalert")
+    public @ResponseBody String sendMessage(HttpServletResponse response) {
+            Random r = new Random();
+            System.out.println("I got a hit going to sleep and then I will add one todo"); 
+            response.setContentType("text/event-stream");
+            try {
+                    Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                    e.printStackTrace();
+            }   
+            System.out.println("I will response to sleep with new job");
+    		Todo todoAdd = new Todo();
+    		todoAdd.setTitle("To do second with random = "+r.nextInt());
+    		todoAdd.setCompleted(false);
+    		todoList.add(todoAdd);
+    		
+            return "data:Testing 1,2,3" + r.nextInt() +"\n\n";
+    }
+    
 
 }

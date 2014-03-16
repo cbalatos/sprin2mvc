@@ -4,7 +4,8 @@ window.Todos = Ember.Application.create();
 
 Todos.ApplicationAdapter = DS.RESTAdapter.extend({
 	  namespace: 'SpringMVC/rest',
-	  host: 'http://192.168.1.77:8080'
+	 //host: 'http://192.168.1.77:8080'
+	  host: 'http://localhost:8080'
 		  /*
 		   *   headers: {
     "API_KEY": "secret key",

@@ -1,10 +1,15 @@
 if (!!window.EventSource) {
    console.log("Event source available");
-   var source = new EventSource('/SpringMVC/rest/sse/systemalert');
+//   var source = new EventSource('/SpringMVC/rest/sse/systemalert');
+   
 
-
+   var source = new EventSource('/SpringMVC/rest/todos/reloadalert');
    source.addEventListener('message', function(e) {
-        console.log(e.data);
+       // console.log(e.data);
+	   console.log ('Refresh signal has been caught');
+	  // alert ('got a refresh signal. I will reload');
+	   location.reload()
+	   
    });
 
    source.addEventListener('open', function(e) {
