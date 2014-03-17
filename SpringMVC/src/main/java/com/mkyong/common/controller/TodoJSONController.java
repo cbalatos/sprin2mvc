@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,11 +32,13 @@ public class TodoJSONController {
 		
 		todoList = new ArrayList<Todo>();
 		Todo todo1 = new Todo();
+		todo1.setId(1);
 		todo1.setTitle("To do first");
 		todo1.setCompleted(false);
 
 
 		Todo todo2 = new Todo();
+		todo1.setId(2);
 		todo2.setTitle("To do second");
 		todo2.setCompleted(true);
 		//shop2.setStaffName(new String[] { "mkyong1", "mkyong2" });
@@ -48,34 +51,44 @@ public class TodoJSONController {
 		todos.setTodos(todoList);
 
 	}
-/*
+
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public @ResponseBody
-	Shop getShopInJSON(@PathVariable int id) throws ShopNotFoundException {
+	Todo getShopInJSON(@PathVariable int id) throws ShopNotFoundException {
 		
-		System.out.println("Get shop in json for :"+id);
+		System.out.println("Get todo in json for :"+id);
 		
-		for(Shop s: shopList){
+		for(Todo s: todoList){
 			if (s.getId() == id) return s;
 		}
 
 		throw new ShopNotFoundException();
 
-	}*/
+	}
 	
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody
-	Todo updateTodoInJSON(@Valid @RequestBody Todo todo) { 
+	Todo updateTodoInJSON(@Valid @RequestBody Todo todo)  throws ShopNotFoundException{ 
 		//The valid annotation ensures that if validation annotations declared in the Shop object fails, 
 		//a MethodArgumentNotValidException is thrown and  validation errors are returned to the client as a JSON document.
 
 		System.out.println("I will update  a new todo with name" + todo.getTitle());
 		//int maxId = 0;
 
-		todos.getTodos().add(todo);
+		Todo tobeUpdated = null;
+		if (todo.getId() == 0)
+			throw new ShopNotFoundException();
+		for (Todo t: todoList){
+			if (t.getId() == todo.getId())
+				tobeUpdated = t;
+		}
 
+		if (tobeUpdated == null) throw new ShopNotFoundException();
 		
+		System.out.println("I will update todo");
+		tobeUpdated.setCompleted(todo.isCompleted());
+		tobeUpdated.setTitle(todo.getTitle());
 		return todo;
 
 	}	
@@ -88,7 +101,8 @@ public class TodoJSONController {
 		//a MethodArgumentNotValidException is thrown and  validation errors are returned to the client as a JSON document.
 
 		System.out.println("I will insert a new todo with name" + todo.getTitle());
-		//int maxId = 0;
+		
+		todo.setId(maxIdInTodoList()+1);
 
 		todos.getTodos().add(todo);
 
@@ -140,11 +154,21 @@ public class TodoJSONController {
             }   
             System.out.println("I will response to sleep with new job");
     		Todo todoAdd = new Todo();
+    		todoAdd.setId(maxIdInTodoList()+1);
     		todoAdd.setTitle("To do second with random = "+r.nextInt());
     		todoAdd.setCompleted(false);
     		todoList.add(todoAdd);
     		
             return "data:Testing 1,2,3" + r.nextInt() +"\n\n";
+    }
+    
+    private int maxIdInTodoList (){
+    	int maxId = 0;
+    	for (Todo t:todoList){
+    		if (maxId < t.getId())
+    			maxId = t.getId();
+    	}
+    	return maxId;
     }
     
 

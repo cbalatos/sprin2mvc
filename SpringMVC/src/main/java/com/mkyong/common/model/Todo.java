@@ -5,11 +5,22 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class Todo {
 
+	@NotEmpty
+	int id;
     @NotEmpty //Hibernate Validation Constains
     @Length(max = 50)
 	String title;
 	boolean isCompleted;
 	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getTitle() {
 		return title;
 	}
