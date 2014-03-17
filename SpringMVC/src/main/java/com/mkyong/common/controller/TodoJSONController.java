@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.mkyong.common.model.Todo;
 import com.mkyong.common.model.Todos;
 
+
 @Controller
 @RequestMapping("/todos")
 public class TodoJSONController {
@@ -102,7 +103,7 @@ public class TodoJSONController {
 
 		System.out.println("List size =" + todoList.size());
 
-		
+
 		return todos;
 	}
 	
