@@ -6,7 +6,7 @@ if (!!window.EventSource) {
    var source = new EventSource('/SpringMVC/rest/todos/reloadalert');
    source.addEventListener('message', function(e) {
        // console.log(e.data);
-	   console.log ('Refresh signal has been caught');
+	   console.log ('Somebody added a todo item. Refresh signal has been caught');
 	  // alert ('got a refresh signal. I will reload');
 	   location.reload()
 	   

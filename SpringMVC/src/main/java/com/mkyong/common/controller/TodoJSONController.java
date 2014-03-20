@@ -151,19 +151,19 @@ public class TodoJSONController {
     @RequestMapping("reloadalert")
     public @ResponseBody String sendMessage(HttpServletResponse response) {
             Random r = new Random();
-            System.out.println("I got a hit going to sleep and then I will add one todo"); 
             response.setContentType("text/event-stream");
-            try {
+            
+            int todosNum = todoList.size();
+            do{
+            	try {
                     Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                    e.printStackTrace();
-            }   
-            System.out.println("I will response to sleep with new job");
-    		Todo todoAdd = new Todo();
-    		todoAdd.setId(maxIdInTodoList()+1);
-    		todoAdd.setTitle("To do second with random = "+r.nextInt());
-    		todoAdd.setCompleted(false);
-    		todoList.add(todoAdd);
+            	} catch (InterruptedException e) {
+            		e.printStackTrace();
+            	}
+            	
+            }while(todosNum == todoList.size());
+            System.out.println("Somebody added soemthing");
+
     		
             return "data:Testing 1,2,3" + r.nextInt() +"\n\n";
     }
