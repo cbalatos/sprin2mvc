@@ -1,11 +1,10 @@
 package com.mkyong.common.controller;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -16,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.mkyong.common.model.Shop;
 import com.mkyong.common.model.Todo;
-import com.mkyong.common.model.Todos;
 
 
 @Controller
@@ -26,7 +25,7 @@ public class TodoJSONController {
 	
 
 	
-	static class todos extends ArrayList<Todo> { }
+	static class todos extends ArrayList<Todo> { } //Ember cannot map the arrayList root element of a toDo List so we rename it to todos as needed
 	
 	todos todoList;
 	//List<Todo> todoList;
@@ -127,16 +126,16 @@ public class TodoJSONController {
 		return todoList;
 	}
 	
-	/*
+
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public @ResponseBody
-	void deleteShopListFromJSON(@PathVariable int id)  {
+	void deleteTodoFromJSON(@PathVariable int id)  {
 
-		Iterator<Shop> iter = shopList.iterator();
+		Iterator<Todo> iter = todoList.iterator();
 
 		while (iter.hasNext()){
-			Shop s = iter.next();
+			Todo s = iter.next();
 			if (s.getId() == id){
 				
 				iter.remove();
@@ -144,9 +143,9 @@ public class TodoJSONController {
 			
 			
 		}
-		System.out.println("After deletion size="+shopList.size());
+		System.out.println("After deletion size="+todoList.size());
 
-	}	*/
+	}
 	
     @RequestMapping("reloadalert")
     public @ResponseBody String sendMessage(HttpServletResponse response) {

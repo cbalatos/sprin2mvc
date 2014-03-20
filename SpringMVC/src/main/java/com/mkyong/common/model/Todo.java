@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-@XmlRootElement(name="todo")
+@XmlRootElement(name="todo") // compatible with ember
 public class Todo {
 
 	@NotEmpty
