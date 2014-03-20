@@ -4,11 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 import com.mkyong.common.controller.JSONController;
+import com.mkyong.common.controller.ShopNotFoundException;
 import com.mkyong.common.controller.TodoJSONController;
 import com.mkyong.common.model.Shop;
+import com.mkyong.common.model.Todo;
 
 public class TestTodo {
 
@@ -19,8 +23,7 @@ public class TestTodo {
 		TodoJSONController json = new TodoJSONController();	
 		
 		assertNotNull("The todos item must not be null ", json.getTodoListInJSON());
-		assertNotNull("The todos list must not be null ", json.getTodoListInJSON().getTodos());
-		assertEquals(" Two todos list must exist ", 2, json.getTodoListInJSON().getTodos().size() );
+		assertNotNull("The todos list must not be null ", ((ArrayList<Todo>) json.getTodoListInJSON()).size());
 		
 		
 	}
@@ -28,30 +31,47 @@ public class TestTodo {
 	
 	@Test
 	public void testDeletion() {
-		fail("Not yet implemented");
-		/*
-		JSONController json = new JSONController();	
+
+		TodoJSONController json = new TodoJSONController();	
 		
-		json.deleteShopListFromJSON(1);
-		assertEquals(" One shop must exist in the shop list after deletion", 1, json.getShopListInJSON().size() );
+		json.deleteTodoFromJSON(1);
+		assertEquals(" One todo must exist in the shop list after deletion", 1, ((ArrayList<Todo>) json.getTodoListInJSON()).size());
 		
-		*/
 	}
 	
 	@Test
 	public void testCreation() {
-		fail("Not yet implemented");
-		/*
-		JSONController json = new JSONController();	
+
+		TodoJSONController json = new TodoJSONController();	
 		
-		Shop s = new Shop();
+		Todo s = new Todo();
 		
-		s.setName("My newly added shop");
+		s.setTitle("New One");
+		s.setCompleted(true);
 		
-		json.insertShopInJSON(s);
-		assertEquals(" Three shops must exist in the shop list after addition", 3, json.getShopListInJSON().size() );
+		json.insertTodoInJSON(s);
+		assertEquals(" Three todos must exist in the shop list after addition", 3,((ArrayList<Todo>) json.getTodoListInJSON()).size());
+	}
+	
+	@Test
+	public void testUpdate() {
+
+		TodoJSONController json = new TodoJSONController();	
 		
-		*/
+		Todo s = new Todo();
+		
+		s.setId(1);
+		s.setTitle("Update First");
+		s.setCompleted(true);
+		
+		try {
+			json.updateTodoInJSON(1, s);
+			assertEquals(" Two todos must exist in the shop list after update", 2,((ArrayList<Todo>) json.getTodoListInJSON()).size());
+			assertEquals(" Assert that the first object has id", 1,((ArrayList<Todo>) json.getTodoListInJSON()).get(0).getId());
+		} catch (ShopNotFoundException e) {
+			fail("Todo not found");
+			// TODO Auto-generated catch block
+		}
 	}
 
 }
