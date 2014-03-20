@@ -1,5 +1,6 @@
 
 Todos.Todo = DS.Model.extend({
+  //id: DS.attr('number'),
   title: DS.attr('string'),
   completed: DS.attr('boolean'),
   //isCompleted: DS.attr('boolean')

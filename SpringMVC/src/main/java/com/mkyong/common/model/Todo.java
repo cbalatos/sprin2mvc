@@ -1,8 +1,11 @@
 package com.mkyong.common.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+@XmlRootElement(name="todo")
 public class Todo {
 
 	@NotEmpty

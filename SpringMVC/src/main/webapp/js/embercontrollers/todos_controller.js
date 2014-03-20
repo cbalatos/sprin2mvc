@@ -19,12 +19,6 @@ Todos.TodosController = Ember.ArrayController.extend({
     },
     clearCompleted: function() {
         var completed = this.filterBy('isCompleted', true);
-        if (confirm('Are you sure that you want to delete all completed actions? '+ completed.get('length') + ' ' +(completed.get('length') === 1 ? 'item' : 'items') + '  will be deleted.')){
-            completed.invoke('deleteRecord');
-            completed.invoke('save');        	
-        } else{
-        	alert('Deletion Aborted');
-        }
         if (confirm('Are you sure that you want to delete '+ completed.get('length')+' completed items?')){
         	completed.invoke('deleteRecord');
         	completed.invoke('save');

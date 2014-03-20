@@ -17,9 +17,10 @@
 	<bean id="customObjectMapper" class="gr.cbal.utils.JaxbJacksonObjectMapper" />
 
 	<context:component-scan base-package="com.mkyong.common.controller" />
-
+<!-- 
 	<mvc:annotation-driven/>
-	<!-- Configure jackson to return the class name 
+	 -->
+	<!-- Configure jackson to return the class name  -->
 	<mvc:annotation-driven>
 		<mvc:message-converters>
 			<bean
@@ -30,6 +31,6 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
- -->
+
 
 </beans>

@@ -24,13 +24,18 @@ import com.mkyong.common.model.Todos;
 @RequestMapping("/todos")
 public class TodoJSONController {
 	
-	List<Todo> todoList;
-	Todos todos;
+
+	
+	static class todos extends ArrayList<Todo> { }
+	
+	todos todoList;
+	//List<Todo> todoList;
+	//Todos todos;
 
 	
 	public TodoJSONController(){
 		
-		todoList = new ArrayList<Todo>();
+		todoList = new todos();
 		Todo todo1 = new Todo();
 		todo1.setId(1);
 		todo1.setTitle("To do first");
@@ -38,7 +43,7 @@ public class TodoJSONController {
 
 
 		Todo todo2 = new Todo();
-		todo1.setId(2);
+		todo2.setId(2);
 		todo2.setTitle("To do second");
 		todo2.setCompleted(true);
 		//shop2.setStaffName(new String[] { "mkyong1", "mkyong2" });
@@ -47,8 +52,8 @@ public class TodoJSONController {
 		todoList.add(todo2);	
 		
 
-		todos = new Todos();
-		todos.setTodos(todoList);
+		//todos = new Todos();
+		//todos.setTodos(todoList);
 
 	}
 
@@ -59,6 +64,7 @@ public class TodoJSONController {
 		System.out.println("Get todo in json for :"+id);
 		
 		for(Todo s: todoList){
+			System.out.println("Is it equal :"+id+ " and " +s.getId());
 			if (s.getId() == id) return s;
 		}
 
@@ -66,21 +72,21 @@ public class TodoJSONController {
 
 	}
 	
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody
-	Todo updateTodoInJSON(@Valid @RequestBody Todo todo)  throws ShopNotFoundException{ 
+	Todo updateTodoInJSON(@PathVariable int id,  @RequestBody Todo todo)  throws ShopNotFoundException{ 
 		//The valid annotation ensures that if validation annotations declared in the Shop object fails, 
 		//a MethodArgumentNotValidException is thrown and  validation errors are returned to the client as a JSON document.
 
-		System.out.println("I will update  a new todo with name" + todo.getTitle());
+		System.out.println("I will update  a new todo with id" + id);
 		//int maxId = 0;
 
 		Todo tobeUpdated = null;
-		if (todo.getId() == 0)
+		if (id == 0)
 			throw new ShopNotFoundException();
 		for (Todo t: todoList){
-			if (t.getId() == todo.getId())
+			if (t.getId() == id)
 				tobeUpdated = t;
 		}
 
@@ -89,14 +95,14 @@ public class TodoJSONController {
 		System.out.println("I will update todo");
 		tobeUpdated.setCompleted(todo.isCompleted());
 		tobeUpdated.setTitle(todo.getTitle());
-		return todo;
+		return tobeUpdated;
 
 	}	
 	
-	@RequestMapping(method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody
-	Todo insertTodoInJSON(@Valid @RequestBody Todo todo) { 
+	Todo insertTodoInJSON(@RequestBody Todo todo) { 
 		//The valid annotation ensures that if validation annotations declared in the Shop object fails, 
 		//a MethodArgumentNotValidException is thrown and  validation errors are returned to the client as a JSON document.
 
@@ -104,7 +110,7 @@ public class TodoJSONController {
 		
 		todo.setId(maxIdInTodoList()+1);
 
-		todos.getTodos().add(todo);
+		todoList.add(todo);
 
 		
 		return todo;
@@ -113,12 +119,12 @@ public class TodoJSONController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
-	Todos getTodoListInJSON() {
+	todos getTodoListInJSON() {
 
 		System.out.println("List size =" + todoList.size());
 
 
-		return todos;
+		return todoList;
 	}
 	
 	/*
