@@ -1,5 +1,7 @@
 package com.mkyong.common.model;
 
+import java.util.Date;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.Length;
@@ -14,6 +16,10 @@ public class Todo {
     @Length(max = 50)
 	String title;
 	boolean isCompleted;
+	
+	Date startDate;
+	
+	Date endDate;
 	
 	
 	public int getId() {
@@ -38,6 +44,22 @@ public class Todo {
 	
 	public void setCompleted(boolean isCompleted) {
 		this.isCompleted = isCompleted;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 	
 	

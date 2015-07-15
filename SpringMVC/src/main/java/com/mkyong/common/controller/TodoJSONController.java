@@ -94,6 +94,8 @@ public class TodoJSONController {
 		System.out.println("I will update todo");
 		tobeUpdated.setCompleted(todo.isCompleted());
 		tobeUpdated.setTitle(todo.getTitle());
+		tobeUpdated.setStartDate(todo.getStartDate());
+		tobeUpdated.setEndDate(todo.getEndDate());
 		return tobeUpdated;
 
 	}	
